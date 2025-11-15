@@ -20,12 +20,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
     12: 'https://bnidigital.bcl.my/form/12-bulan',
   };
 
-  static const Map<int, int> _prices = {
-    1: 27,
-    3: 79,
-    6: 146,
-    12: 259,
-  };
+  static const Map<int, int> _prices = {1: 27, 3: 79, 6: 146, 12: 259};
 
   @override
   void initState() {
@@ -42,9 +37,9 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
-      
+
       if (!mounted) return;
-      
+
       // Show dialog explaining next steps
       showDialog(
         context: context,
@@ -66,7 +61,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
 
   Future<void> _checkPaymentStatus() async {
     final notifier = ref.read(subscriptionControllerProvider.notifier);
-    
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -93,7 +88,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
     );
 
     final success = await notifier.pollForActivation();
-    
+
     if (!mounted) return;
     Navigator.pop(context); // Close loading dialog
 
@@ -107,9 +102,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            'Belum ada pembayaran diterima. Cuba lagi sebentar.',
-          ),
+          content: Text('Belum ada pembayaran diterima. Cuba lagi sebentar.'),
         ),
       );
     }
@@ -180,9 +173,9 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
                 // Subscription options
                 Text(
                   hasActive ? 'Panjangkan Langganan' : 'Pilih Tempoh Langganan',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
 
@@ -205,7 +198,9 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
 
                 // "I've paid" button
                 FilledButton.icon(
-                  onPressed: subscriptionState.isPolling ? null : _checkPaymentStatus,
+                  onPressed: subscriptionState.isPolling
+                      ? null
+                      : _checkPaymentStatus,
                   icon: const Icon(Icons.check_circle_outline),
                   label: const Text('Dah Bayar? Semak Status'),
                 ),
@@ -244,7 +239,9 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
   }
 
   Widget _buildActiveSubscriptionCard(Subscription subscription) {
-    final daysLeft = subscription.subscriptionEndsAt.difference(DateTime.now()).inDays;
+    final daysLeft = subscription.subscriptionEndsAt
+        .difference(DateTime.now())
+        .inDays;
     final isExpiringSoon = daysLeft <= 7;
 
     return Card(
@@ -265,8 +262,8 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
                   child: Text(
                     'Langganan Aktif',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Chip(
@@ -303,9 +300,9 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
           children: [
             Text(
               'Had Penggunaan',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             _buildLimitRow(
@@ -390,10 +387,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
               ),
               Text(
                 '~RM$perMonth/bulan',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
               ),
             ],
           ),

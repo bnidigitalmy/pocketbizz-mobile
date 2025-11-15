@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "226172390394",
+    "project_id": "pocketbizz-mobile",
+    "storage_bucket": "pocketbizz-mobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226172390394:android:a4c8b7c11994da2704f243",
+        "android_client_info": {
+          "package_name": "com.example.pocketbizz_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJgYBiwIyVGA49fB4jg76OgRyH1AeTDKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

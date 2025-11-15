@@ -21,21 +21,21 @@ class SubscriptionState {
   });
 
   Subscription? get activeSubscription => subscriptions.firstWhere(
-        (s) => s.status == 'active',
-        orElse: () => subscriptions.isEmpty
-            ? const Subscription(
-                id: '',
-                userId: '',
-                planId: '',
-                planName: '',
-                status: 'none',
-                durationMonths: 0,
-                subscriptionStartsAt: null,
-                subscriptionEndsAt: null,
-                totalPaid: '0',
-              )
-            : subscriptions.first,
-      );
+    (s) => s.status == 'active',
+    orElse: () => subscriptions.isEmpty
+        ? const Subscription(
+            id: '',
+            userId: '',
+            planId: '',
+            planName: '',
+            status: 'none',
+            durationMonths: 0,
+            subscriptionStartsAt: null,
+            subscriptionEndsAt: null,
+            totalPaid: '0',
+          )
+        : subscriptions.first,
+  );
 
   bool get hasActiveSubscription =>
       subscriptions.any((s) => s.status == 'active');
@@ -55,17 +55,19 @@ class SubscriptionState {
 
 // Subscription controller
 final subscriptionControllerProvider =
-    StateNotifierProvider<SubscriptionController, AsyncValue<SubscriptionState>>(
-        (ref) {
-  return SubscriptionController(ref.watch(subscriptionApiProvider));
-});
+    StateNotifierProvider<
+      SubscriptionController,
+      AsyncValue<SubscriptionState>
+    >((ref) {
+      return SubscriptionController(ref.watch(subscriptionApiProvider));
+    });
 
 class SubscriptionController
     extends StateNotifier<AsyncValue<SubscriptionState>> {
   final SubscriptionApi _api;
 
   SubscriptionController(this._api)
-      : super(const AsyncValue.data(SubscriptionState()));
+    : super(const AsyncValue.data(SubscriptionState()));
 
   Future<void> loadSubscriptionData() async {
     state = const AsyncValue.loading();
@@ -77,15 +79,14 @@ class SubscriptionController
       success: (subscriptions) {
         return limitsResult.when(
           success: (limits) {
-            return AsyncValue.data(SubscriptionState(
-              subscriptions: subscriptions,
-              limits: limits,
-            ));
+            return AsyncValue.data(
+              SubscriptionState(subscriptions: subscriptions, limits: limits),
+            );
           },
           failure: (message) {
-            return AsyncValue.data(SubscriptionState(
-              subscriptions: subscriptions,
-            ));
+            return AsyncValue.data(
+              SubscriptionState(subscriptions: subscriptions),
+            );
           },
         );
       },

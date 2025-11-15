@@ -11,8 +11,8 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 // Auth state notifier
 final authControllerProvider =
     StateNotifierProvider<AuthController, AsyncValue<User?>>((ref) {
-  return AuthController(ref.watch(authRepositoryProvider));
-});
+      return AuthController(ref.watch(authRepositoryProvider));
+    });
 
 class AuthController extends StateNotifier<AsyncValue<User?>> {
   final AuthRepository _repository;
@@ -25,7 +25,7 @@ class AuthController extends StateNotifier<AsyncValue<User?>> {
   Future<void> checkAuth() async {
     state = const AsyncValue.loading();
     final result = await _repository.getCurrentUser();
-    
+
     state = result.when(
       success: (user) => AsyncValue.data(user),
       failure: (_) => const AsyncValue.data(null),
@@ -35,7 +35,7 @@ class AuthController extends StateNotifier<AsyncValue<User?>> {
   Future<bool> login(String email, String password) async {
     state = const AsyncValue.loading();
     final result = await _repository.login(email, password);
-    
+
     return result.when(
       success: (user) {
         state = AsyncValue.data(user);
@@ -59,7 +59,7 @@ class AuthController extends StateNotifier<AsyncValue<User?>> {
       email: email,
       password: password,
     );
-    
+
     return result.when(
       success: (user) {
         state = AsyncValue.data(user);
